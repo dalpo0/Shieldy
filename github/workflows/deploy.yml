@@ -1,4 +1,4 @@
-name: Deploy WebApp
+name: Deploy Shieldy WebApp
 on:
   push:
     branches: [ main ]
