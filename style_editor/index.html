@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Style Editor</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial;
+            background: #1e1e2f;
+            color: white;
+            padding: 20px;
+        }
+        button {
+            background: #3a3a5f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Style Editor</h1>
+    <input type="color" id="colorPicker" value="#ffffff">
+    <button onclick="saveColor()">Save</button>
+
+    <script>
+        Telegram.WebApp.ready();
+        
+        function saveColor() {
+            const color = document.getElementById('colorPicker').value;
+            Telegram.WebApp.sendData(JSON.stringify({
+                action: "update_color",
+                color: color,
+                user_id: new URLSearchParams(window.location.search).get('user_id')
+            }));
+        }
+    </script>
+</body>
+</html>
