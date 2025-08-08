@@ -1,40 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Style Editor</title>
+    <title>🛡️ Shieldy Style Editor</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            --shield-color: #4CAF50;
+            --bg-color: #1e1e2f;
+        }
         body {
-            font-family: Arial;
-            background: #1e1e2f;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg-color);
             color: white;
             padding: 20px;
+            text-align: center;
+        }
+        .shield-preview {
+            font-size: 5rem;
+            margin: 20px;
+            color: var(--shield-color);
         }
         button {
-            background: #3a3a5f;
+            background: var(--shield-color);
             color: white;
             border: none;
-            padding: 10px 20px;
-            margin-top: 15px;
-            border-radius: 5px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>🎨 Style Editor</h1>
-    <input type="color" id="colorPicker" value="#ffffff">
-    <button onclick="saveColor()">Save</button>
+    <h1>Customize Your Shield</h1>
+    <div class="shield-preview">🛡️</div>
+    
+    <label>Shield Color:
+        <input type="color" id="shieldColor" value="#4CAF50">
+    </label>
+
+    <button onclick="saveStyle()">💾 Save Style</button>
 
     <script>
         Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
         
-        function saveColor() {
-            const color = document.getElementById('colorPicker').value;
-            Telegram.WebApp.sendData(JSON.stringify({
-                action: "update_color",
-                color: color,
+        const shieldColor = document.getElementById('shieldColor');
+        const preview = document.querySelector('.shield-preview');
+        
+        shieldColor.addEventListener('input', () => {
+            preview.style.color = shieldColor.value;
+        });
+
+        function saveStyle() {
+            const data = {
+                action: "update_shield_style",
+                color: shieldColor.value,
                 user_id: new URLSearchParams(window.location.search).get('user_id')
-            }));
+            };
+            Telegram.WebApp.sendData(JSON.stringify(data));
+            Telegram.WebApp.close();
         }
     </script>
 </body>
